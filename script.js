@@ -40,3 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
     generateBtn.addEventListener('click', generateReply);
     copyBtn.addEventListener('click', copyReply);
 });
+async function generateResponse() {
+  const input = document.getElementById("fraudInput").value;
+  document.getElementById("responseOutput").innerText = "Se generează răspunsul...";
+  try {
+    const response = await fetch("/api/generate-response", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: input })
+    });
+    const data = await response.json();
+    document.getElementById("responseOutput").innerText = data.reply;
+  } catch (err) {
+    document.getElementById("responseOutput").innerText = "Eroare la generarea răspunsului.";
+  }
+}
